@@ -6,20 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://wwwying.github.io">
-  <title>Hexo的基本使用方法 | wwwYing的文档</title>
+  <title>Jquery源码阅读（一） | wwwYing的文档</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hexo常用命令收集 新增文章1hexo new 文章名字">
-<meta name="keywords" content="Hexo">
+  <meta name="description" content="介绍jquery是一个被广泛使用的前端库，目前最新版本为3.3.1，现在从源码入手，一起看看jquery的实现原理">
+<meta name="keywords" content="jquery,源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo的基本使用方法">
-<meta property="og:url" content="https://wwwying.github.io/2019/02/26/Hexo的基本使用方法/index.html">
+<meta property="og:title" content="Jquery源码阅读（一）">
+<meta property="og:url" content="https://wwwying.github.io/2019/03/19/Jquery源码阅读（一）/index.html">
 <meta property="og:site_name" content="wwwYing的文档">
-<meta property="og:description" content="Hexo常用命令收集 新增文章1hexo new 文章名字">
+<meta property="og:description" content="介绍jquery是一个被广泛使用的前端库，目前最新版本为3.3.1，现在从源码入手，一起看看jquery的实现原理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-18T08:28:03.647Z">
+<meta property="og:image" content="https://wwwying.github.io/images/jquery_dir.png">
+<meta property="og:image" content="https://wwwying.github.io/images/build_tasks.png">
+<meta property="og:updated_time" content="2019-03-19T01:54:00.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo的基本使用方法">
-<meta name="twitter:description" content="Hexo常用命令收集 新增文章1hexo new 文章名字">
+<meta name="twitter:title" content="Jquery源码阅读（一）">
+<meta name="twitter:description" content="介绍jquery是一个被广泛使用的前端库，目前最新版本为3.3.1，现在从源码入手，一起看看jquery的实现原理">
+<meta name="twitter:image" content="https://wwwying.github.io/images/jquery_dir.png">
   
   
     <link rel="icon" href="/assets/img/avatar.jpg">
@@ -135,41 +138,38 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Hexo的基本使用方法" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-Jquery源码阅读（一）" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hexo的基本使用方法
+      Jquery源码阅读（一）
     </h1>
   
 
         
-        <a href="/2019/02/26/Hexo的基本使用方法/" class="archive-article-date">
-  	<time datetime="2019-02-26T02:20:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+        <a href="/2019/03/19/Jquery源码阅读（一）/" class="archive-article-date">
+  	<time datetime="2019-03-19T01:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Hexo常用命令收集"><a href="#Hexo常用命令收集" class="headerlink" title="Hexo常用命令收集"></a>Hexo常用命令收集</h1><ul>
-<li>新增文章<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new 文章名字</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>jquery是一个被广泛使用的前端库，目前最新版本为3.3.1，现在从源码入手，一起看看jquery的实现原理</p>
 <a id="more"></a>
-<hr>
-<ul>
-<li>清理缓存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li>往github发布文章<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h1 id="获得源码"><a href="#获得源码" class="headerlink" title="获得源码"></a>获得源码</h1><p>推荐从<a href="https://github.com/jquery/jquery" target="_blank" rel="noopener">jquery</a>的官方仓库直接clone代码</p>
+<h1 id="打包编译"><a href="#打包编译" class="headerlink" title="打包编译"></a>打包编译</h1><p>获得源码后，执行npm run build便可以开始打包。jquery的打包主要基于grunt和require.js。因为是使用<br>了AMD模块化标准，所以需要了解grunt的基本用法和AMD的标准。</p>
+<h1 id="源码目录"><a href="#源码目录" class="headerlink" title="源码目录"></a>源码目录</h1><p>下载3.3.1的源码解压，或者clone代码后checkout到tag:3.3.1，可以看到整个代码</p>
+<p><img src="/images/jquery_dir.png" alt="目录"></p>
+<p>对于主要的文件夹和文件做介绍：<br><strong>build</strong>：用于打包的grunt任务，主要包含build,custom等任务<br><strong>dist</strong>：打包之后的文件<br><strong>external</strong>：额外需要的库<br><strong>src</strong>：源码目录<br><strong>test</strong>：测试目录<br><strong>Gruntfile.js</strong>：grunt的任务文件</p>
+<h1 id="从打包开始入手"><a href="#从打包开始入手" class="headerlink" title="从打包开始入手"></a>从打包开始入手</h1><p>在Gruntfile.js中，主要进行了grunt的初始化和相关打包任务的加载，注册。<br>会先去加载build/tasks目录下的任务<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Integrate jQuery specific tasks</span></span><br><span class="line">grunt.loadTasks( <span class="string">"build/tasks"</span> );</span><br></pre></td></tr></table></figure></p>
+<p>然后注册默认的打包任务<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">grunt.registerTask( <span class="string">"default"</span>, [</span><br><span class="line">		<span class="string">"eslint:dev"</span>,</span><br><span class="line">		<span class="string">"build:*:*"</span>,</span><br><span class="line">		<span class="string">"uglify"</span>,</span><br><span class="line">		<span class="string">"remove_map_comment"</span>,</span><br><span class="line">		<span class="string">"dist:*"</span>,</span><br><span class="line">		<span class="string">"qunit_fixture"</span>,</span><br><span class="line">		<span class="string">"eslint:dist"</span>,</span><br><span class="line">		<span class="string">"test:fast"</span>,</span><br><span class="line">		<span class="string">"compare_size"</span></span><br><span class="line">	] );</span><br></pre></td></tr></table></figure></p>
+<p>在default任务中，主要完成打包的是build任务，build任务定义在build/tasks/build.js当中</p>
+<p>在build/tasks/build.js中，一共定义了build和custom两个任务，最终的打包都是由build任务<br>来进行的，custom主要是针对自定义模块的打包，比如需要移除ajax或css等模块的打包。</p>
+<p><img src="/images/build_tasks.png" alt="目录"></p>
 
       
 
@@ -183,7 +183,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jquery</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
         		</li>
       		
 		</ul>
@@ -202,15 +206,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/02/26/编译原理学习（一）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          编译原理学习（一）
-        
-      </div>
-    </a>
   
+    <a href="/2019/02/26/编译原理学习（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">编译原理学习（一）</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
