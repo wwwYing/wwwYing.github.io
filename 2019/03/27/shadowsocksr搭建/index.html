@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://wwwying.github.io">
-  <title>Tag: 源码 | wwwYing的文档</title>
+  <title>shadowsocksr搭建 | wwwYing的文档</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一步一步，一点一点，记录自己，展望未来">
-<meta name="keywords" content="计算机，前端，webgl">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wwwYing的文档">
-<meta property="og:url" content="https://wwwying.github.io/tags/源码/index.html">
+  <meta name="description" content="介绍shadowsocksr是基于shadowsocks的一款代理工具，增加了混淆功能，LotServer则是速锐的企业版，能够显著的提高翻墙的速度">
+<meta name="keywords" content="shadowsocksr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shadowsocksr搭建">
+<meta property="og:url" content="https://wwwying.github.io/2019/03/27/shadowsocksr搭建/index.html">
 <meta property="og:site_name" content="wwwYing的文档">
-<meta property="og:description" content="一步一步，一点一点，记录自己，展望未来">
+<meta property="og:description" content="介绍shadowsocksr是基于shadowsocks的一款代理工具，增加了混淆功能，LotServer则是速锐的企业版，能够显著的提高翻墙的速度">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-27T06:37:34.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wwwYing的文档">
-<meta name="twitter:description" content="一步一步，一点一点，记录自己，展望未来">
+<meta name="twitter:title" content="shadowsocksr搭建">
+<meta name="twitter:description" content="介绍shadowsocksr是基于shadowsocks的一款代理工具，增加了混淆功能，LotServer则是速锐的企业版，能够显著的提高翻墙的速度">
   
   
     <link rel="icon" href="/assets/img/avatar.jpg">
@@ -134,64 +135,109 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-shadowsocksr搭建" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/19/Jquery源码阅读（一）/" class="archive-article-date">
-  	<time datetime="2019-03-19T01:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Jquery源码阅读（一）/">Jquery源码阅读（一）</a>
+    <h1 class="article-title" itemprop="name">
+      shadowsocksr搭建
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/03/27/shadowsocksr搭建/" class="archive-article-date">
+  	<time datetime="2019-03-27T06:02:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>shadowsocksr是基于shadowsocks的一款代理工具，增加了混淆功能，LotServer则是速锐的企业版，能够显著的提高翻墙的速度</p>
+<a id="more"></a>
+<p>两个项目都停止了更新，虽然能正常使用，但是由于LotServer的原因，限制了操作系统的内核。<br>两个项目地址如下：<br>shadowsocksr：<a href="https://github.com/shadowsocksr-backup/shadowsocksr" target="_blank" rel="noopener">shadowsocksr</a><br>LotServer：<a href="https://github.com/0oVicero0/serverSpeeder_Install" target="_blank" rel="noopener">LotServer</a><br>LotServer支持的内核：<a href="https://github.com/0oVicero0/serverSpeeder_kernel" target="_blank" rel="noopener">支持列表</a>;</p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><ol>
+<li>检查系统环境，需要安装git,Python以及确定内核版本</li>
+<li>选择合适的目录，克隆shadowsocksr仓库，并切换到最新的tag</li>
+<li>执行<code>bash initcfg.sh</code></li>
+<li>修改shadowsocksr文件夹下面的配置文件user-config.json内容</li>
+<li><p>如果是多用户，则需要去掉配置文件中<code>server_port</code>和<code>password</code>，并添加以下配置</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;port_password&quot;:&#123;</span><br><span class="line">    &quot;8686&quot;:&quot;mimamima1&quot;,</span><br><span class="line">    &quot;8787&quot;:&quot;mimamima2&quot;,</span><br><span class="line">    &quot;8888&quot;:&quot;mimamima3&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后进入shadowsocksr/shadowsocks目录</p>
+</li>
+<li>运行程序，命令有，后台运行：<code>./logrun.sh</code>，停止：<code>./stop.sh</code>，查看日志：<code>./tail.sh</code></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jquery</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">shadowsocksr</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/03/19/Jquery源码阅读（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Jquery源码阅读（一）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -214,9 +260,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
