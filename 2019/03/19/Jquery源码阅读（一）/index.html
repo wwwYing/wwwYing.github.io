@@ -18,7 +18,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://wwwying.github.io/images/jquery_dir.png">
 <meta property="og:image" content="https://wwwying.github.io/images/build_tasks.png">
-<meta property="og:updated_time" content="2019-03-27T10:01:04.132Z">
+<meta property="og:updated_time" content="2019-03-28T07:45:04.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jquery源码阅读（一）">
 <meta name="twitter:description" content="介绍jquery是一个被广泛使用的前端库，目前最新版本为3.3.1，现在从源码入手，一起看看jquery的实现原理">
@@ -175,7 +175,8 @@
 <p>这里的参数的意义，可以在requirejs的<a href="https://github.com/requirejs/r.js/blob/master/build/example.build.js" target="_blank" rel="noopener">配置参数</a>里面查到。</p>
 <p>其中baseUrl和name指明了，整个项目的入口文件是src\jquery.js，之后便可以从jquery.js开始阅读源码。</p>
 <h2 id="custom任务"><a href="#custom任务" class="headerlink" title="custom任务"></a>custom任务</h2><p>主要是处理使用命令行 <code>grunt custom:-css,-ajax</code>来进行自定义模块的打包任务，其中<code>-css,-ajax</code>会作为<code>args</code>属性，传入custom任务函数中，args经过处理，将需要移除的模块用modules，传到build任务来完成打包。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.....</span><br><span class="line">modules = args.length ? args[ <span class="number">0</span> ].replace( <span class="regexp">/,/g</span>, <span class="string">":"</span> ) : <span class="string">""</span>,</span><br><span class="line">.....</span><br><span class="line">grunt.task.run( [ <span class="string">"build:*:*"</span> + ( modules ? <span class="string">":"</span> + modules : <span class="string">""</span> ), <span class="string">"uglify"</span>, <span class="string">"dist"</span> ] );</span><br><span class="line">.....</span><br></pre></td></tr></table></figure></p>
-<h2 id="build任务"><a href="#build任务" class="headerlink" title="build任务"></a>build任务</h2><p>主要是根据参数，处理需要增删的模块，配置config的<code>include</code>,<code>out</code>,<code>excludeShallow</code>几个参数。<br><code>out</code>参数的函数是用来写入打包后的文件，会将打包后的内容替换掉一些文本信息，然后写入到指定的位置。<br>任务中的<code>excludeList</code>和<code>excluder</code>函数会处理模块间的依赖关系，例如要去掉css模块，同时也需要去掉/src/css下面的所有内容，对于<code>sizzle</code>等特殊模块也需要专门做处理</p>
+<h2 id="build任务"><a href="#build任务" class="headerlink" title="build任务"></a>build任务</h2><p>主要是根据参数，处理需要增删的模块，配置config的<code>include</code>,<code>out</code>,<code>excludeShallow</code>几个参数。<br><code>out</code>参数的函数是用来写入打包后的文件，会将打包后的内容替换掉一些文本信息，然后写入到指定的位置。<br>任务中的<code>excludeList</code>和<code>excluder</code>函数会处理模块间的依赖关系，例如要去掉css模块，同时也需要去掉/src/css下面的所有内容，对于<code>sizzle</code>等特殊模块也需要专门做处理，最后使用requirejs.optimize来打包，直接打包的话，代码可能没法在浏览器环境执行，浏览器可不支持AMD标准，所以还需要<code>config</code>里面的<code>onBuildWrite</code>属性的<code>convert</code>函数来做转换，转换之后的代码就可以直接被浏览器执行了。</p>
+<p>但是非常奇怪的是，AMD是一个标准，浏览器环境ES5也是一个标准，从AMD标准的代码向ES5代码转换的过程，用字符串替换的方式来达到，总感觉缺乏一定的严谨和科学性。</p>
 <h2 id="大致的打包流程就是如上，其余的打包任务例如uglify-dist等对源码阅读没有较大意义，所以现在可以先忽略，下一章将开始真正的源代码阅读学习"><a href="#大致的打包流程就是如上，其余的打包任务例如uglify-dist等对源码阅读没有较大意义，所以现在可以先忽略，下一章将开始真正的源代码阅读学习" class="headerlink" title="大致的打包流程就是如上，其余的打包任务例如uglify,dist等对源码阅读没有较大意义，所以现在可以先忽略，下一章将开始真正的源代码阅读学习"></a>大致的打包流程就是如上，其余的打包任务例如<code>uglify</code>,<code>dist</code>等对源码阅读没有较大意义，所以现在可以先忽略，下一章将开始真正的源代码阅读学习</h2>
       
 
@@ -345,15 +346,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">shadowsocksr</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jquery</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">shadowsocksr</a>
               </li>
             
             <div class="clearfix"></div>

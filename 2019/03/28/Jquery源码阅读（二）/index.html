@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://wwwying.github.io">
-  <title>Archives | wwwYing的文档</title>
+  <title>Jquery源码阅读（二） | wwwYing的文档</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一步一步，一点一点，记录自己，展望未来">
-<meta name="keywords" content="计算机，前端，webgl">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wwwYing的文档">
-<meta property="og:url" content="https://wwwying.github.io/archives/index.html">
+  <meta name="description" content="整个项目的起点src/jquery.js这个文件非常简单，就是按照AMD的标准，定义了一个模块，这个模块依赖了./core,./selector,./traversing等模块，并返回jQuery对象。">
+<meta name="keywords" content="jquery,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jquery源码阅读（二）">
+<meta property="og:url" content="https://wwwying.github.io/2019/03/28/Jquery源码阅读（二）/index.html">
 <meta property="og:site_name" content="wwwYing的文档">
-<meta property="og:description" content="一步一步，一点一点，记录自己，展望未来">
+<meta property="og:description" content="整个项目的起点src/jquery.js这个文件非常简单，就是按照AMD的标准，定义了一个模块，这个模块依赖了./core,./selector,./traversing等模块，并返回jQuery对象。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-28T08:32:39.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wwwYing的文档">
-<meta name="twitter:description" content="一步一步，一点一点，记录自己，展望未来">
+<meta name="twitter:title" content="Jquery源码阅读（二）">
+<meta name="twitter:description" content="整个项目的起点src/jquery.js这个文件非常简单，就是按照AMD的标准，定义了一个模块，这个模块依赖了./core,./selector,./traversing等模块，并返回jQuery对象。">
   
   
     <link rel="icon" href="/assets/img/avatar.jpg">
@@ -134,36 +135,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Jquery源码阅读（二）" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Jquery源码阅读（二）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/Jquery源码阅读（二）/" class="archive-article-date">
+
+        
+        <a href="/2019/03/28/Jquery源码阅读（二）/" class="archive-article-date">
   	<time datetime="2019-03-28T02:34:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/Jquery源码阅读（二）/">Jquery源码阅读（二）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="整个项目的起点src-jquery-js"><a href="#整个项目的起点src-jquery-js" class="headerlink" title="整个项目的起点src/jquery.js"></a>整个项目的起点src/jquery.js</h1><p>这个文件非常简单，就是按照AMD的标准，定义了一个模块，这个模块依赖了<code>./core</code>,<code>./selector</code>,<code>./traversing</code>等模块，并返回jQuery对象。</p>
+<a id="more"></a>
+<p>根据AMD规范，依赖了多少个模块，返回的时候也有多少个参数返回，为什么这里只接收了一个参数呢，是因为其它模块也都依赖了<code>./core</code>模块，而根据AMD的规范，依赖同一个模块，只会加载一次，且返回的是同一个对象，换而言之，<code>./core</code>模块真正定义了jQuery，而这里的其它模块，都是在对jQuery添加属性和方法。</p>
+<h1 id="jQuery的起点src-core-js"><a href="#jQuery的起点src-core-js" class="headerlink" title="jQuery的起点src/.core.js"></a>jQuery的起点src/.core.js</h1><p>在src/jquery.js中依赖的第一个模块就是<code>src/.core.js</code>，且其它的模块也都依赖<code>./core.js</code>，这里定义了<code>jQuery</code>对象，并实现了一些基础的方法和原型链。</p>
+<p><code>core</code>的依赖都是一些细微的模块，例如<code>./var/arr</code>声明了数组<code>[]</code>，<code>./var/class2type</code>则定义了对象<code>{}</code>，等等。具体如下：</p>
+<ol>
+<li><code>./var/arr</code>声明了数组<code>[]</code></li>
+<li><code>./var/document</code>声明了对象<code>window.document</code></li>
+<li><code>./var/getProto</code>声明了方法<code>Object.getPrototypeOf</code></li>
+<li><code>./var/slice</code>声明了方法<code>[].slice</code></li>
+<li><code>./var/concat</code>声明了方法<code>[].concat</code></li>
+<li><code>./var/push</code>声明了方法<code>[].push</code></li>
+<li><code>./var/indexOf</code>声明了方法<code>[].indexOf</code></li>
+<li><code>./var/class2type</code>声明了对象<code>{}</code></li>
+<li><code>./var/toString</code>声明了方法<code>{}.toString</code></li>
+<li><code>./var/hasOwn</code>声明了方法<code>{}.hasOwnProperty</code></li>
+<li><code>./var/fnToString</code>声明了方法<code>{}.hasOwnProperty.toString</code></li>
+<li><code>./var/ObjectFunctionString</code>声明了方法<code>{}.hasOwnProperty.toString.call</code></li>
+<li><code>./var/support</code>声明了方法<code>{}</code></li>
+<li><code>./var/isFunction</code>声明了函数<code>typeof obj === &quot;function&quot; &amp;&amp; typeof obj.nodeType !== &quot;number&quot;</code></li>
+<li><code>./var/isWindow</code>声明了函数<code>obj != null &amp;&amp; obj === obj.window</code></li>
+<li><code>./core/DOMEval</code>声明了函数<code>DOMEval</code></li>
+<li><code>./core/toType</code>声明了函数<code>toType</code></li>
+</ol>
+<p>接下来，声明并赋值了jQuery，再为jQuery的fn和prototype属性赋值，二者等于同一个对象<code>jQuery.fn = jQuery.prototype = {...}</code>，然后<code>jQuery.extend = jQuery.fn.extend = function () {...}</code>，最后通过<code>extend</code>为jQuery附加了一些属性和方法，如<code>isReady</code>,<code>trim</code>,<code>each</code>等等。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -179,137 +203,55 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/27/shadowsocksr搭建/" class="archive-article-date">
-  	<time datetime="2019-03-27T06:02:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/27/shadowsocksr搭建/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">shadowsocksr搭建</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/27/shadowsocksr搭建/">shadowsocksr搭建</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">shadowsocksr</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/19/Jquery源码阅读（一）/" class="archive-article-date">
-  	<time datetime="2019-03-19T01:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/19/Jquery源码阅读（一）/">Jquery源码阅读（一）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jquery</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">源码</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/26/Hexo的基本使用方法/" class="archive-article-date">
-  	<time datetime="2019-02-26T02:20:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/26/Hexo的基本使用方法/">Hexo的基本使用方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -332,8 +274,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
